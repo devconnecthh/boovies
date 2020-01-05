@@ -1,12 +1,15 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
+import { Grid } from '@material-ui/core'
+import MovieItem from './MovieItem'
 
 const DISCOVER_MOVIES = gql`
   query {
     discoverMovies {
       id
       title
+      poster_path
     }
   }
 `
@@ -17,11 +20,15 @@ function MoviesList() {
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error!</p>
 
-  return data.discoverMovies.map(({ id, title }) => (
-    <div key={id}>
-      <p>{title}</p>
-    </div>
-  ))
+  return (
+    <Grid container spacing={2} justify='center'>
+      {data.discoverMovies.map(movie => (
+        <Grid item key={movie.id}>
+          <MovieItem {...movie} />
+        </Grid>
+      ))}
+    </Grid>
+  )
 }
 
 export default MoviesList

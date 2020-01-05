@@ -1,6 +1,7 @@
 import React from 'react'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
+import { Container } from '@material-ui/core'
 import MoviesList from './MoviesList'
 
 const client = new ApolloClient({
@@ -10,7 +11,9 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <MoviesList />
+      <Container>
+        <MoviesList />
+      </Container>
     </ApolloProvider>
   )
 }
