@@ -22,7 +22,11 @@ function MovieItem({ id, title, poster_path }) {
     <Link className={classes.link} to={{ pathname: id }}>
       <Card className={classes.card}>
         <CardHeader title={title} />
-        <CardMedia className={classes.media} image={poster_path} title={title} />
+        <CardMedia
+          className={classes.media}
+          image={poster_path}
+          title={title}
+        />
       </Card>
     </Link>
   )
