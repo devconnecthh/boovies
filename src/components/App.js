@@ -7,7 +7,7 @@ import MoviesList from './MoviesList'
 import MoviePage from './MoviePage'
 
 const client = new ApolloClient({
-  uri: 'http://lokalhost:4000/graphql',
+  uri: 'http://localhost:4000/graphql',
 })
 
 function App() {
