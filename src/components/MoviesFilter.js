@@ -1,22 +1,18 @@
 import React from 'react'
 import { Select, FormControl, InputLabel, MenuItem } from '@material-ui/core'
+import { RELEASE_YEARS } from '../config'
 
-const FIRST_RELEASE_YEAR = 1970
-const LAST_RELEASE_YEAR = new Date().getFullYear()
-const AMOUNT_OF_YEARS = LAST_RELEASE_YEAR + 1 - FIRST_RELEASE_YEAR
-const RELEASE_YEARS = [...Array(AMOUNT_OF_YEARS).keys()]
-  .map(value => value + FIRST_RELEASE_YEAR)
-  .reverse()
-
-function MoviesFilter() {
+function MoviesFilter({ year, onYearChange }) {
   return (
     <div>
       <FormControl>
-        <InputLabel id='movies-filter-years'>Age</InputLabel>
+        <InputLabel id='movies-filter-years'>Year</InputLabel>
         <Select
           labelId='movies-filter-years'
-          value={LAST_RELEASE_YEAR}
-          onChange={() => {}}
+          value={year}
+          onChange={e => {
+            onYearChange(e.target.value)
+          }}
         >
           {RELEASE_YEARS.map(year => (
             <MenuItem key={year} value={year}>
