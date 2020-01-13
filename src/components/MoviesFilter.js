@@ -1,10 +1,11 @@
+import { Container } from '@material-ui/core'
 import React from 'react'
 import { Select, FormControl, InputLabel, MenuItem } from '@material-ui/core'
 import { RELEASE_YEARS } from '../config'
 
 function MoviesFilter({ year, onYearChange }) {
   return (
-    <div>
+    <Container maxWidth='md'>
       <FormControl>
         <InputLabel id='movies-filter-years'>Year</InputLabel>
         <Select
@@ -21,7 +22,7 @@ function MoviesFilter({ year, onYearChange }) {
           ))}
         </Select>
       </FormControl>
-    </div>
+    </Container>
   )
 }
 

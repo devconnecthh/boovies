@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import { Grid } from '@material-ui/core'
+import { CircularProgress, Grid } from '@material-ui/core'
 import MovieItem from './MovieItem'
 import MoviesFilter from './MoviesFilter'
 import { LAST_RELEASE_YEAR } from '../config'
@@ -22,18 +22,25 @@ function MoviesList() {
     variables: { year },
   })
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error!</p>
+  let gridContent
+
+  if (loading) {
+    gridContent = <CircularProgress />
+  } else if (error) {
+    gridContent = <p>Error!</p>
+  } else {
+    gridContent = data.discoverMovies.map(movie => (
+      <Grid item key={movie.id}>
+        <MovieItem {...movie} />
+      </Grid>
+    ))
+  }
 
   return (
     <>
       <MoviesFilter year={year} onYearChange={setYear} />
       <Grid container spacing={2} justify='center'>
-        {data.discoverMovies.map(movie => (
-          <Grid item key={movie.id}>
-            <MovieItem {...movie} />
-          </Grid>
-        ))}
+        {gridContent}
       </Grid>
     </>
   )
