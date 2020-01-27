@@ -5,8 +5,8 @@ import { gql } from 'apollo-boost'
 import { Typography } from '@material-ui/core'
 
 const GET_MOVIE_INFO = gql`
-  query MOVIE($id: Int!) {
-    movie: findById(id: $id) {
+  query movie($id: Int!) {
+    movie(id: $id) {
       title
       overview
     }

@@ -7,8 +7,8 @@ import MoviesFilter from './MoviesFilter'
 import { LAST_RELEASE_YEAR } from '../config'
 
 const DISCOVER_MOVIES = gql`
-  query discoverMovies($year: Int) {
-    discoverMovies(filter: { year: $year }) {
+  query movies($year: Int) {
+    movies(filter: { year: $year }) {
       id
       title
       poster_path
@@ -29,7 +29,7 @@ function MoviesList() {
   } else if (error) {
     gridContent = <p>Error!</p>
   } else {
-    gridContent = data.discoverMovies.map(movie => (
+    gridContent = data.movies.map(movie => (
       <Grid item key={movie.id}>
         <MovieItem {...movie} />
       </Grid>
