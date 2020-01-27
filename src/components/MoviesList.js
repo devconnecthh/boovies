@@ -3,12 +3,14 @@ import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 import { CircularProgress, Grid } from '@material-ui/core'
 import MovieItem from './MovieItem'
-import MoviesFilter from './MoviesFilter'
+import YearFilter from './filters/YearFilter'
+import GenresFilter from './filters/GenresFilter'
 import { LAST_RELEASE_YEAR } from '../config'
+import { Container } from '@material-ui/core'
 
 const DISCOVER_MOVIES = gql`
-  query movies($year: Int) {
-    movies(filter: { year: $year }) {
+  query movies($year: Int, $genres: [Int!]) {
+    movies(filter: { year: $year, genres: $genres }) {
       id
       title
       poster_path
@@ -18,8 +20,9 @@ const DISCOVER_MOVIES = gql`
 
 function MoviesList() {
   const [year, setYear] = useState(LAST_RELEASE_YEAR)
+  const [genres, setGenres] = useState([])
   const { loading, error, data } = useQuery(DISCOVER_MOVIES, {
-    variables: { year },
+    variables: { year, genres },
   })
 
   let gridContent
@@ -38,7 +41,10 @@ function MoviesList() {
 
   return (
     <>
-      <MoviesFilter year={year} onYearChange={setYear} />
+      <Container maxWidth='md'>
+        <YearFilter year={year} onYearChange={setYear} />
+        <GenresFilter genres={genres} onGenresChange={setGenres} />
+      </Container>
       <Grid container spacing={2} justify='center'>
         {gridContent}
       </Grid>
