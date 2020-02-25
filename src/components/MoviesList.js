@@ -7,10 +7,11 @@ import YearFilter from './filters/YearFilter'
 import GenresFilter from './filters/GenresFilter'
 import { LAST_RELEASE_YEAR } from '../config'
 import { Container } from '@material-ui/core'
+import Sort from './Sort'
 
 const DISCOVER_MOVIES = gql`
-  query movies($year: Int, $genres: [Int!]) {
-    movies(filter: { year: $year, genres: $genres }) {
+  query movies($year: Int, $genres: [Int!], $sort: MovieSort) {
+    movies(filter: { year: $year, genres: $genres }, sort: $sort) {
       id
       title
       poster_path
@@ -21,8 +22,9 @@ const DISCOVER_MOVIES = gql`
 function MoviesList() {
   const [year, setYear] = useState(LAST_RELEASE_YEAR)
   const [genres, setGenres] = useState([])
+  const [sort, setSort] = useState('POPULARITY_DESC')
   const { loading, error, data } = useQuery(DISCOVER_MOVIES, {
-    variables: { year, genres },
+    variables: { year, genres, sort },
   })
 
   let gridContent
@@ -44,6 +46,7 @@ function MoviesList() {
       <Container maxWidth='md'>
         <YearFilter year={year} onYearChange={setYear} />
         <GenresFilter genres={genres} onGenresChange={setGenres} />
+        <Sort value={sort} onChange={setSort} />
       </Container>
       <Grid container spacing={2} justify='center'>
         {gridContent}
