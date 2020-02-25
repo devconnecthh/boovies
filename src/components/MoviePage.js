@@ -2,13 +2,16 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import { Typography } from '@material-ui/core'
+import { Typography, Chip } from '@material-ui/core'
 
 const GET_MOVIE_INFO = gql`
   query movie($id: Int!) {
     movie(id: $id) {
       title
       overview
+      genres {
+        name
+      }
     }
   }
 `
@@ -22,7 +25,8 @@ function MoviePage() {
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error!</p>
 
-  const { title, overview } = data && data.movie
+  const { title, overview, genres } = data && data.movie
+  const genreNames = genres.map(({ name }) => name)
 
   return (
     <div>
@@ -32,6 +36,9 @@ function MoviePage() {
       <Typography variant='body2' color='textSecondary' component='p'>
         {overview}
       </Typography>
+      {genreNames.map(name => (
+        <Chip key={name} label={name} />
+      ))}
     </div>
   )
 }
